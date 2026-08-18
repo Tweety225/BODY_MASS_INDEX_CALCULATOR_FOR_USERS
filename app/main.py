@@ -41,7 +41,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 
 # Include versioned API

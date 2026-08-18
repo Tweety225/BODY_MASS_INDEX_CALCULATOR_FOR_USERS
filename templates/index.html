@@ -35,10 +35,11 @@
         const height = parseFloat(document.getElementById('height').value);
 
         try {
-          const res = await fetch('/api/bmi', {
+          const res = await fetch('/api/v1/bmi/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({weight_kg: weight, height_m: height})
+          });
           });
           if (!res.ok) throw new Error(await res.text());
           const data = await res.json();

@@ -40,7 +40,6 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({weight_kg: weight, height_m: height})
           });
-          });
           if (!res.ok) throw new Error(await res.text());
           const data = await res.json();
           resultEl.innerHTML = `<strong>BMI:</strong> ${data.bmi} <br/><strong>Category:</strong> ${data.category}`;

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BMI Calculator</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>BMI Calculator</h1>
+      <form id="bmi-form">
+        <label>
+          Weight (kg)
+          <input type="number" step="0.1" name="weight" id="weight" required min="0.1" />
+        </label>
+        <label>
+          Height (m)
+          <input type="number" step="0.01" name="height" id="height" required min="0.3" />
+        </label>
+        <button type="submit">Calculate</button>
+      </form>
+
+      <div id="result" class="result" aria-live="polite"></div>
+    </main>
+
+    <script>
+      const form = document.getElementById('bmi-form');
+      const resultEl = document.getElementById('result');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        resultEl.textContent = 'Calculating...';
+        const weight = parseFloat(document.getElementById('weight').value);
+        const height = parseFloat(document.getElementById('height').value);
+
+        try {
+          const res = await fetch('/api/bmi', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({weight_kg: weight, height_m: height})
+          });
+          if (!res.ok) throw new Error(await res.text());
+          const data = await res.json();
+          resultEl.innerHTML = `<strong>BMI:</strong> ${data.bmi} <br/><strong>Category:</strong> ${data.category}`;
+        } catch (err) {
+          resultEl.textContent = 'Error: ' + (err.message || err);
+        }
+      });
+    </script>
+  </body>
+</html>

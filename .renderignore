@@ -1,0 +1,6 @@
+# Ignore tests and local editor settings on Render deploy
+tests/
+.vscode/
+.git/
+*.pyc
+__pycache__/
